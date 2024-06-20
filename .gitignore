@@ -1,3 +1,4 @@
 env/
 __pycache__/
 one_book.csv
+books_from_category.csv

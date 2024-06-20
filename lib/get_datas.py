@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from lib.parse_url import get_base_url, get_base_url_from_category
-from repo.lib.extract_datas import extract_data
-def get_book_datas(page, book, url):
+from lib.extract_datas import extract_datas
+def get_book_datas(page, url, book):
 
     soup = BeautifulSoup(page, "html.parser")
 
@@ -19,7 +19,7 @@ def get_book_datas(page, book, url):
     description = meta_description['content'].strip()
     book['Description'] = description
 
-    # get more infos (UPC, Prices, Tax, Availability) on the book, 
+    # get more infos (UPC, Prices, Availability) on the book, 
     # exclude useless infos
     table = soup.find('table')
     all_th = table.find_all('th')
@@ -29,7 +29,8 @@ def get_book_datas(page, book, url):
             continue
         book[th.string] = td.string
 
-    # get review raiting
+    # get review raiting, 
+    # it is a personnal preference to use numbers rather than words
     ratings = {
     'One': 1,
     'Two': 2,
@@ -55,7 +56,7 @@ def get_book_datas(page, book, url):
 
     return book
 
-def get_category_datas(page, url):
+def get_category_datas(page, url, books_from_category):
 
     # get base url in category page
     base_url = get_base_url_from_category(url)
@@ -75,8 +76,9 @@ def get_category_datas(page, url):
     # get infos for every book in a category thanks to created urls above
     for url_from_category in urls_from_category:
         book = {}
-        one_book_page = extract_data(url_from_category)
+        one_book_page = extract_datas(url_from_category)
         book['Book_page_url'] = url_from_category
-        get_book_datas(one_book_page, book, url_from_category)
-        print(book)
-        print('\n\n')
+        get_book_datas(one_book_page, url_from_category, book)
+        books_from_category.append(book)
+
+    return books_from_category

@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from lib.parse_url import get_base_url, get_base_url_from_category
-from lib.extract_data import extract_data
-def get_book_infos(page, book, url):
+from repo.lib.extract_datas import extract_data
+def get_book_datas(page, book, url):
 
     soup = BeautifulSoup(page, "html.parser")
 
@@ -55,10 +55,12 @@ def get_book_infos(page, book, url):
 
     return book
 
-def get_category_infos(page, url):
+def get_category_datas(page, url):
 
+    # get base url in category page
     base_url = get_base_url_from_category(url)
 
+    # get links in category page
     soup = BeautifulSoup(page, "html.parser")
     section = soup.find('section')
     lvl3_titles = section.find_all('h3')
@@ -66,13 +68,15 @@ def get_category_infos(page, url):
     urls_from_category=[]
     for title in lvl3_titles:
         relative_link = title.find('a')
+        # create usable urls from links scraped
         reusable_link = relative_link['href'].lstrip('../')
         urls_from_category.append(f'{base_url}/{reusable_link}')
     
+    # get infos for every book in a category thanks to created urls above
     for url_from_category in urls_from_category:
         book = {}
         one_book_page = extract_data(url_from_category)
         book['Book_page_url'] = url_from_category
-        get_book_infos(one_book_page, book, url_from_category)
+        get_book_datas(one_book_page, book, url_from_category)
         print(book)
         print('\n\n')

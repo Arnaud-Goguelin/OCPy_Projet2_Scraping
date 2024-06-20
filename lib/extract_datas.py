@@ -1,5 +1,5 @@
 import requests
-def extract_data(url):
+def extract_datas(url):
 
     response = requests.get(url)
 

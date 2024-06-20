@@ -5,7 +5,7 @@ def get_book_infos(soup, book, url):
     
     # get category
     all_links = soup.find_all('a')
-    book['category'] = all_links[3].get_text()
+    book['category'] = all_links[3].string
 
     # get book's description : 
     # use meta tag because it is unique is the page 
@@ -16,13 +16,13 @@ def get_book_infos(soup, book, url):
 
     # get more infos (UPC, Prices, Tax, Availability) on the book, 
     # exclude useless infos
-    for table in soup.find_all('table'):
-        for tr in table.find_all('tr'):
-            th = tr.find_all('th')
-            td = tr.find_all('td')
-            if th[0].get_text() == 'Product Type' or th[0].get_text() =='Number of reviews':
-                continue
-            book[th[0].get_text()] = td[0].get_text()
+    table = soup.find('table')
+    all_th = table.find_all('th')
+    all_td = table.find_all('td')
+    for (th, td) in zip(all_th, all_td):
+        if th.string == 'Product Type' or th.string =='Number of reviews':
+            continue
+        book[th.string] = td.string
 
     # get review raiting
     ratings = {

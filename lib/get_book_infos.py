@@ -1,5 +1,10 @@
+from bs4 import BeautifulSoup
 from lib.parse_url import get_url_base
-def get_book_infos(soup, book, url):
+def get_book_infos(page, book, url):
+
+    soup = BeautifulSoup(page, "html.parser")
+
+
     # get book's title
     book['title'] = soup.h1.string
     

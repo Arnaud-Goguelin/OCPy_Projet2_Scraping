@@ -43,7 +43,7 @@ def get_book_datas(page, url, book):
     all_img = soup.find_all('img')
     current_book_img = all_img[0]
 
-    # get the image url, remove useless characters ('../') 
+    # get the image url, remove useless characters ('../')
     # and concatenate it with the basic url of the website
     # in order to get a valide url to use
     current_book_img_url = current_book_img['src'].lstrip('../')
@@ -52,29 +52,43 @@ def get_book_datas(page, url, book):
 
     return book
 
+
 def get_category_datas(page, url, books_from_category):
 
     # get base url in category page
     base_url = get_base_url_from_category(url)
 
-    # get links in category page
-    soup = BeautifulSoup(page, "html.parser")
-    section = soup.find('section')
-    lvl3_titles = section.find_all('h3')
+    #! get links in category page
+    primordial_soup = BeautifulSoup(page, "html.parser")
 
-    urls_from_category=[]
-    for title in lvl3_titles:
-        relative_link = title.find('a')
-        # create usable urls from links scraped
-        reusable_link = relative_link['href'].lstrip('../')
-        urls_from_category.append(f'{base_url}/{reusable_link}')
-    
-    # get infos for every book in a category thanks to created urls above
-    for url_from_category in urls_from_category:
-        book = {}
-        one_book_page = extract_datas(url_from_category)
-        book['Book_page_url'] = url_from_category
-        get_book_datas(one_book_page, url_from_category, book)
-        books_from_category.append(book)
+    all_ulr_to_scrap = [url]
+    next_link = primordial_soup.find('a', string='next')
 
-    return books_from_category
+    while next_link:
+        next_link_href = next_link.get('href')
+        next_page_url = all_ulr_to_scrap[0].replace('index.html', next_link_href)
+        all_ulr_to_scrap.append(next_page_url)
+
+        next_page = extract_datas(next_page_url)
+        new_soup = BeautifulSoup(next_page, 'html.parser')
+        next_link = new_soup.find('a', string='next')
+
+    #     section = primordial_soup.find('section')
+    #     lvl3_titles = section.find_all('h3')
+
+    #     urls_from_category = []
+    #     for title in lvl3_titles:
+    #         relative_link = title.find('a')
+    #         # create usable urls from links scraped
+    #         reusable_link = relative_link['href'].lstrip('../')
+    #         urls_from_category.append(f'{base_url}/{reusable_link}')
+
+    #     # get infos for every book in a category thanks to created urls above
+    #     for url_from_category in urls_from_category:
+    #         book = {}
+    #         one_book_page = extract_datas(url_from_category)
+    #         book['Book_page_url'] = url_from_category
+    #         get_book_datas(one_book_page, url_from_category, book)
+    #         books_from_category.append(book)
+
+    # return books_from_category

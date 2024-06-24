@@ -9,9 +9,8 @@ def export_one_book(book):
 
 
 def export_category_books(books):
-    with open('books_from_category.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
+    with open('books_from_category.csv', 'w', newline='', encoding='utf-8-sig') as file:
+        writer = csv.DictWriter(file, fieldnames=books[0].keys(), delimiter='|')
+        writer.writeheader()
         for book in books:
-            for key, value in book.items():
-                writer.writerow([key, value])
-            writer.writerow([])
+            writer.writerow(book)

@@ -1,48 +1,44 @@
 from bs4 import BeautifulSoup
 from lib.parse_url import get_base_url, get_base_url_from_category
 from lib.extract_datas import extract_datas
+
+
 def get_book_datas(page, url, book):
 
     soup = BeautifulSoup(page, "html.parser")
 
     # get book's title
     book['Title'] = soup.h1.string
-    
+
     # get category
     all_links = soup.find_all('a')
     book['Category'] = all_links[3].string
 
-    # get book's description : 
-    # use meta tag because it is unique is the page 
+    # get book's description :
+    # use meta tag because it is unique is the page
     # and the same as the descritpion in <p> tag
     meta_description = soup.find('meta', attrs={'name': 'description'})
     description = meta_description['content'].strip()
     book['Description'] = description
 
-    # get more infos (UPC, Prices, Availability) on the book, 
+    # get more infos (UPC, Prices, Availability) on the book,
     # exclude useless infos
     table = soup.find('table')
     all_th = table.find_all('th')
     all_td = table.find_all('td')
     for (th, td) in zip(all_th, all_td):
-        if th.string == 'Product Type' or th.string =='Number of reviews' or th.string =='Tax':
+        if th.string == 'Product Type' or th.string == 'Number of reviews' or th.string == 'Tax':
             continue
         book[th.string] = td.string
 
-    # get review raiting, 
+    # get review raiting,
     # it is a personnal preference to use numbers rather than words
-    ratings = {
-    'One': 1,
-    'Two': 2,
-    'Three': 3,
-    'Four': 4,
-    'Five': 5
-    }
+    ratings = {'One': 1, 'Two': 2, 'Three': 3, 'Four': 4, 'Five': 5}
     all_text = soup.find_all('p', class_='star-rating')
     current_book_ratings = all_text[0]['class'][1]
     rating = ratings[current_book_ratings]
-    book['Rating'] = f'{rating}/5'
-  
+    book['Rating'] = f'{rating} out of 5'
+
     # get the book's imagine (the first in all the img tag)
     all_img = soup.find_all('img')
     current_book_img = all_img[0]

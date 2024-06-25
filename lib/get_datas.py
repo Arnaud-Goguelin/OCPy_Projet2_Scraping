@@ -56,14 +56,14 @@ def get_book_datas(page, url, book):
 def get_category_datas(page, url, books_from_category):
 
     # get all pages' url from a category
-    all_ulr_to_scrap = [url]
+    all_ulrs_to_scrap = [url]
     soup = BeautifulSoup(page, "html.parser")
     next_link = soup.find('a', string='next')
 
     while next_link:
         next_link_href = next_link.get('href')
-        next_page_url = all_ulr_to_scrap[0].replace('index.html', next_link_href)
-        all_ulr_to_scrap.append(next_page_url)
+        next_page_url = all_ulrs_to_scrap[0].replace('index.html', next_link_href)
+        all_ulrs_to_scrap.append(next_page_url)
 
         next_page = extract_datas(next_page_url)
         new_soup = BeautifulSoup(next_page, 'html.parser')
@@ -75,7 +75,7 @@ def get_category_datas(page, url, books_from_category):
     # get all books' url from all category's pages
     urls_from_category = []
 
-    for url_to_scrap in all_ulr_to_scrap:
+    for url_to_scrap in all_ulrs_to_scrap:
         page_to_scrap = extract_datas(url_to_scrap)
         parsed_page = BeautifulSoup(page_to_scrap, 'html.parser')
         section = parsed_page.find('section')

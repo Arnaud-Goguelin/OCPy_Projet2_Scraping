@@ -62,11 +62,8 @@ def get_category_datas(page, url, books_from_category):
 
     while next_link:
         next_link_href = next_link.get('href')
-<<<<<<< HEAD
         next_page_url = all_ulrs_to_scrap[0].replace('index.html', next_link_href)
-=======
-        next_page_url = all_ulr_to_scrap[0].replace('index.html', next_link_href)
->>>>>>> 9fc01312374638c291687d6ac93602c37ba2451d
+        next_page_url = all_ulrs_to_scrap[0].replace('index.html', next_link_href)
         all_ulrs_to_scrap.append(next_page_url)
 
         next_page = extract_datas(next_page_url)

@@ -61,9 +61,9 @@ def get_category_datas(page, url, books_from_category):
     next_link = soup.find('a', string='next')
 
     while next_link:
-        next_link_href = next_link.get('href')
-        next_page_url = all_ulrs_to_scrap[0].replace('index.html', next_link_href)
-        next_page_url = all_ulrs_to_scrap[0].replace('index.html', next_link_href)
+        if next_link is None:
+            break
+        next_page_url = all_ulrs_to_scrap[0].replace('index.html', next_link['href'])
         all_ulrs_to_scrap.append(next_page_url)
 
         next_page = extract_datas(next_page_url)
@@ -97,3 +97,22 @@ def get_category_datas(page, url, books_from_category):
         books_from_category.append(book)
 
     return books_from_category
+
+
+def get_website_datas(page, url, books_from_website):
+    soup = BeautifulSoup(page, "html.parser")
+    # get all categories links except the first one wich is a link to all books
+    categories_link = soup.find('aside').find_all('a')[1:]
+
+    # get all categories urls in order to scrap books from each category
+    # thanks to function get_category_datas above
+    categories_url = []
+    for category_link in categories_link:
+        categories_url.append(f'{url}{category_link['href']}')
+
+    # scrap books from each category
+    for category_url in categories_url:
+        category_page = extract_datas(category_url)
+        get_category_datas(category_page, category_url, books_from_website)
+
+    return books_from_website

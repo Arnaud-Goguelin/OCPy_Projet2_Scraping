@@ -1,4 +1,3 @@
-import datetime
 
 
 from lib.get_html import get_html
@@ -12,6 +11,7 @@ from lib.export_data import (
     export_one_book,
     export_website_books,
 )
+from lib.get_time import get_time
 
 book_url = "http://books.toscrape.com/catalogue/the-grand-design_405/index.html"
 category_url = (
@@ -21,26 +21,27 @@ website_url = "http://books.toscrape.com/"
 
 if __name__ == "__main__":
 
-    print(f"scrap one book begins at {datetime.datetime.now()}")
+    # scrap one book
+    print(f"one book scrappring begins at {get_time()}")
     book_page = get_html(book_url)
 
-    book = {}
+    book = get_book_data(book_page, book_url)
     book["Book_page_url"] = book_url
-    get_book_data(book_page, book_url, book)
     export_one_book(book)
-    print(f"scrap one book ends at {datetime.datetime.now()}")
+    print(f"one book scrappring ends at {get_time()}\n\n")
 
-    print(f"scrap one category begins at {datetime.datetime.now()}")
+    # scrap all books in one category
+    print(f"one category scrapping begins at {get_time()}")
     category_page = get_html(category_url)
 
-    books_from_category = []
-    get_category_data(category_page, category_url, books_from_category)
+    books_from_category = get_category_data(category_page, category_url)
     export_category_books(books_from_category)
-    print(f"scrap one category ends at {datetime.datetime.now()}")
+    print(f"one category scrapping ends at {get_time()}\n\n")
 
-    print(f"scrap website begins at {datetime.datetime.now()}")
-    books_from_categories = []
+    # scrap all books from website
+    print(f"website scrapping begins at {get_time()}")
     landing_page = get_html(website_url)
-    get_website_data(landing_page, website_url, books_from_categories)
-    export_website_books(books_from_categories)
-    print(f"scrap website ends at {datetime.datetime.now()}")
+
+    books_from_website = get_website_data(landing_page, website_url)
+    export_website_books(books_from_website)
+    print(f"website scrapping ends at {get_time()}")

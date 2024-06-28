@@ -1,7 +1,7 @@
 import requests
 
 
-def extract_datas(url):
+def get_html(url):
 
     response = requests.get(url)
 

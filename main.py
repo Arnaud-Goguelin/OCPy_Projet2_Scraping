@@ -1,5 +1,3 @@
-
-
 from lib.get_html import get_html
 from lib.get_data import (
     get_category_data,

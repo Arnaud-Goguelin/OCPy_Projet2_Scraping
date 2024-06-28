@@ -1,12 +1,44 @@
 from bs4 import BeautifulSoup
 from lib.parse_url import (
     get_base_url,
-    get_base_url_from_category,
+    get_base_from_category_url,
 )
 from lib.get_html import get_html
 
 
 def get_book_data(page, url):
+    """
+    Extract book data from a given webpage and return a dictionary containing the data.
+
+    Parameters:
+    page (str): The HTML content of the webpage (got using get_html function).
+    url (str): The URL of the webpage.
+
+    Returns:
+    dict:
+        A dictionary containing the book data,
+        including the title, category, description, UPC, prices, availability, rating, image URL, and page URL.
+
+    Raises:
+    None
+
+    Examples:
+    >>> url = "http://books.toscrape.com/catalogue/the-grand-design_405/index.html"
+    >>> page = get_html(url)
+    >>> get_book_data(page, url)
+    {
+        'Title': 'The Grand Design',
+        'Category': 'Science',
+        'Description': 'THE FIRST MAJOR WORK IN NEARLY A DECADE BY ONE OF THE...',
+        'UPC': '3213b1f13f5f0f7c',
+        'Price (excl. tax)': '£13.76',
+        'Price (incl. tax)': '£13.76',
+        'Availability': 'In stock (5 available)',
+        'Rating': '3 out of 5',
+        'Image_url': 'http://books.toscrape.com/media/cache/9b/69/9b696c2064d6ee387774b6121bb4be91.jpg',
+        'Book_page_url': 'http://books.toscrape.com/catalogue/the-grand-design_405/index.html'
+    }
+    """
     book = {}
     soup = BeautifulSoup(page, "html.parser")
 
@@ -61,6 +93,56 @@ def get_book_data(page, url):
 
 
 def get_category_data(page, url):
+    """
+    Extract book data from all pages of a given category and return a list of dictionaries containing the data.
+        First check is there is other pages thank to presence of a link 'next'.
+        While 'next' exist create every url page of the given category.
+        Then get on every page the links to every book's page and determine every book's page's url.
+        Scrap book's data from book's page.
+
+    Parameters:
+    page (str): The HTML content of the first page of the category (got using get_html function).
+    url (str): The URL of the first page of the category.
+
+    Returns:
+    list: A list of dictionaries, where each dictionary contains the book data for a book in the category.
+
+    Raises:
+    None
+
+    Examples:
+    >>> url = "http://books.toscrape.com/catalogue/category/books/[category_name]/index.html"
+    >>> page = get_html(url)
+    >>> get_category_data(page, url)
+    [
+        {
+            'Title': 'The Grand Design',
+            'Category': 'Science',
+            'Description': 'THE FIRST MAJOR WORK IN NEARLY A DECADE BY ONE OF THE [...]',
+            'UPC': '3213b1f13f5f0f7c',
+            'Price (excl. tax)': '£13.76',
+            'Price (incl. tax)': '£13.76',
+            'Availability': 'In stock (5 available)',
+            'Rating': '3 out of 5',
+            'Image_url': 'http://books.toscrape.com/media/cache/9b/69/9b696c2064d6ee387774b6121bb4be91.jpg',
+            'Book_page_url': 'http://books.toscrape.com/catalogue/the-grand-design_405/index.html'
+        },
+        {
+            'Title': 'The Elegant Universe: Superstrings, Hidden Dimensions, and the Quest for the Ultimate Theory',
+            'Category': 'Science',
+            'Description': 'The international bestseller that inspired a major Nova special and sparked a new [...]',
+            'UPC': 'c6bf14cb901c63ac',
+            'Price (excl. tax)': '£13.03',
+            'Price (incl. tax)': '£13.03',
+            'Availability': 'In stock (3 available)',
+            'Rating': '4 out of 5',
+            'Image_url': 'http://books.toscrape.com/media/cache/5e/db/5edba3f8d50df6306bc5aa3f2516bd0c.jpg',
+            'Book_page_url':
+                'http://books.toscrape.com/catalogue/the-elegant-universe-superstrings-hidden-dimensions-and-the-quest-for-the-ultimate-theory_245/index.html'
+        },
+        ...
+    ]
+    """
     books_from_category = []
     # get all pages' url from a category
     all_ulrs_to_scrap = [url]
@@ -79,7 +161,7 @@ def get_category_data(page, url):
     print("Got all pages' urls in category")
 
     # get base url in category page in order to create usable urls to scrap books
-    base_url = get_base_url_from_category(url)
+    base_url = get_base_from_category_url(url)
 
     # get all books' url from all category's pages
     urls_from_category = []
@@ -104,12 +186,60 @@ def get_category_data(page, url):
         book = get_book_data(one_book_page, url_from_category)
         book["Book_page_url"] = url_from_category
         books_from_category.append(book)
-        print(f'{urls_from_category.index(url_from_category) + 1} book(s) scrapped on {len(urls_from_category)}')
+        print(
+            f"{urls_from_category.index(url_from_category) + 1} book(s) scrapped on {len(urls_from_category)}"
+        )
 
     return books_from_category
 
 
 def get_website_data(page, url):
+    """
+    Extract book data from all categories of a given website and return a list of dictionaries containing the data.
+
+    Parameters:
+    page (str): The HTML content of the homepage of the website (got using get_html function).
+    url (str): The URL of the homepage of the website.
+
+    Returns:
+    list: A list of dictionaries, where each dictionary contains the book data for a book in the website.
+
+    Raises:
+    None
+
+    Examples:
+    >>> url = "http://books.toscrape.com/"
+    >>> page = get_html(url)
+    >>> get_website(page, url)
+        [
+        {
+            'Title': 'The Grand Design',
+            'Category': 'Science',
+            'Description': 'THE FIRST MAJOR WORK IN NEARLY A DECADE BY ONE OF THE [...]',
+            'UPC': '3213b1f13f5f0f7c',
+            'Price (excl. tax)': '£13.76',
+            'Price (incl. tax)': '£13.76',
+            'Availability': 'In stock (5 available)',
+            'Rating': '3 out of 5',
+            'Image_url': 'http://books.toscrape.com/media/cache/9b/69/9b696c2064d6ee387774b6121bb4be91.jpg',
+            'Book_page_url': 'http://books.toscrape.com/catalogue/the-grand-design_405/index.html'
+        },
+        {
+            'Title': 'A Distant Mirror: The Calamitous 14th Century',
+            'Category': 'History',
+            'Description': 'Barbara W. Tuchman--the acclaimed author of the Pulitzer Prize–winning classic [...]',
+            'UPC': 'd5e0526e1ab682a3',
+            'Price (excl. tax)': '£14.58',
+            'Price (incl. tax)': '£14.58',
+            'Availability': 'In stock (14 available)',
+            'Rating': '3 out of 5',
+            'Image_url': 'http://books.toscrape.com/media/cache/d8/0a/d80ac19cd0aef94c5ac257b1eb3c1d37.jpg',
+            'Book_page_url':
+                'http://books.toscrape.com/catalogue/a-distant-mirror-the-calamitous-14th-century_652/index.html'
+        },
+        ...
+    ]
+    """
     books_from_website = []
     soup = BeautifulSoup(page, "html.parser")
     # get all categories links except the first one wich is a link to all books
@@ -124,9 +254,13 @@ def get_website_data(page, url):
 
     # scrap books from each category
     for category_url in categories_url:
-        print(f'start to scrap category n°{categories_url.index(category_url) + 1} on {len(categories_url)} \n')
+        print(
+            f"start to scrap category n°{categories_url.index(category_url) + 1} on {len(categories_url)} \n"
+        )
         category_page = get_html(category_url)
         books_from_website = get_category_data(category_page, category_url)
-        print(f'{categories_url.index(category_url) + 1} category(ies) scrapped on {len(categories_url)} \n')
+        print(
+            f"{categories_url.index(category_url) + 1} category(ies) scrapped on {len(categories_url)} \n"
+        )
 
     return books_from_website

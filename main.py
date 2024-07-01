@@ -13,7 +13,7 @@ from lib.get_time import get_time
 
 book_url = "http://books.toscrape.com/catalogue/the-grand-design_405/index.html"
 category_url = (
-    "http://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html"
+    "http://books.toscrape.com/catalogue/category/books/food-and-drink_33/index.html"
 )
 website_url = "http://books.toscrape.com/"
 

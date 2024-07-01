@@ -39,19 +39,24 @@ def get_images(books):
     """
     parent_dir = "images"
     print(f'images download begins at {get_time()}')
+
     for book in books:
+        # create one folder for each category if it does not exists yet
         directory = book["Category"]
         path = os.path.join(parent_dir, directory)
         if not os.path.exists(path):
             os.makedirs(path)
 
+        # create a slugified filename for destination path
         image_format = book["Image_url"].split(".")[-1]
         slugified_title = slugify(book["Title"])
 
         filename = f'{books.index(book)+1}_{slugified_title}.{image_format}'
 
+        # downloaded the book's image if it is not done yet
         destination_path = os.path.join(path, filename)
         if not os.path.exists(destination_path):
+            # still wait 1 secondes between each donwloaded in order to prevent server's limiter action
             time.sleep(1)
             wget.download(book["Image_url"], destination_path)
             print(f'\n{books.index(book)+1} image(s) donwloaded on {len(books)} in {book["Category"]} category')

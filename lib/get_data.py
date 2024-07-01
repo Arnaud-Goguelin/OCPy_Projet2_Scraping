@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from lib.get_images import get_images
 from lib.parse_url import (
     get_base_url,
     get_base_from_category_url,
@@ -182,14 +183,15 @@ def get_category_data(page, url):
 
     # get data for every book in a category thanks to created urls above
     for url_from_category in urls_from_category:
-        one_book_page = get_html(url_from_category)
-        book = get_book_data(one_book_page, url_from_category)
+        book_page = get_html(url_from_category)
+        book = get_book_data(book_page, url_from_category)
         book["Book_page_url"] = url_from_category
         books_from_category.append(book)
         print(
-            f"{urls_from_category.index(url_from_category) + 1} book(s) scrapped on {len(urls_from_category)}"
+            f"{urls_from_category.index(url_from_category) + 1} book(s) scrapped on {len(urls_from_category)} in {book["Category"]} category"
         )
 
+    get_images(books_from_category)
     return books_from_category
 
 
@@ -262,5 +264,4 @@ def get_website_data(page, url):
         print(
             f"{categories_url.index(category_url) + 1} category(ies) scrapped on {len(categories_url)} \n"
         )
-
     return books_from_website

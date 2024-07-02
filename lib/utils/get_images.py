@@ -3,7 +3,7 @@ import wget
 import os
 import re
 
-from lib.get_time import get_time
+from lib.utils.get_time import get_time
 
 
 def slugify(string):

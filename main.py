@@ -1,15 +1,12 @@
 from lib.get_book_data import get_book_data
-from lib.get_html import get_html
-from lib.get_data import (
-    get_category_data,
-    get_website_data,
-)
+from lib.utils.get_html import get_html
+from lib.get_website_data import get_website_data
 from lib.export_data import (
     export_category_books,
     export_one_book,
     export_website_books,
 )
-from lib.get_time import get_time
+from lib.utils.get_time import get_time
 
 book_url = "http://books.toscrape.com/catalogue/the-grand-design_405/index.html"
 category_url = (

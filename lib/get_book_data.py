@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from lib.parse_url import get_base_url
+from lib.utils.parse_url import get_base_url
 
 
 def get_title(soup):

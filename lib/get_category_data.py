@@ -143,6 +143,8 @@ def get_books_data_in_category(books_urls_in_category):
             f"{books_urls_in_category.index(book_url) + 1} book(s) scrapped on {len(books_urls_in_category)} in {book["Category"]} category"
         )
 
+    return books_from_category
+
 
 def get_category_data(page, url):
     """

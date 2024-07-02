@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from lib.utils.get_html import get_html
 from lib.utils.parse_url import get_base_url
 
 
@@ -89,7 +90,7 @@ def get_raiting(soup):
     return ratings[current_book_ratings]
 
 
-def get_image_url(soup, url):
+def get_image_url(soup, book_url):
     """
     Extract the URL of the book's image from a BeautifulSoup object and a base URL.
 
@@ -117,17 +118,16 @@ def get_image_url(soup, url):
     # and concatenate it with the basic url of the website
     # in order to get a valide url to use
     current_book_img_url = current_book_img["src"].lstrip("../")
-    base_url = get_base_url(url)
+    base_url = get_base_url(book_url)
     return f"{base_url}/{current_book_img_url}"
 
 
-def get_book_data(page, url):
+def get_book_data(book_url):
     """
     Extract book data from a given webpage and return a dictionary containing the data.
 
     Parameters:
-    page (str): The HTML content of the webpage (got using get_html function).
-    url (str): The URL of the webpage.
+    book_url (str): The URL of the webpage.
 
     Returns:
     dict:
@@ -154,8 +154,12 @@ def get_book_data(page, url):
         'Book_page_url': 'http://books.toscrape.com/catalogue/the-grand-design_405/index.html'
     }
     """
+    book_page = get_html(book_url)
+    soup = BeautifulSoup(book_page, "html.parser")
+
     book = {}
-    soup = BeautifulSoup(page, "html.parser")
+    # get book's url
+    book["Book_page_url"] = book_url
 
     # get book's title
     book["Title"] = get_title(soup)
@@ -173,6 +177,6 @@ def get_book_data(page, url):
     book["Rating"] = f"{get_raiting(soup)} out of 5"
 
     # get the book's imagine url
-    book["Image_url"] = get_image_url(soup, url)
+    book["Image_url"] = get_image_url(soup, book_url)
 
     return book

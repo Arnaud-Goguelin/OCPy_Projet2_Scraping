@@ -6,13 +6,13 @@ from lib.utils.get_images import get_images
 from lib.utils.parse_url import get_base_from_category_url
 
 
-def get_page_urls(page, url):
+def get_page_urls(page, category_url):
     """
     Extract the URLs of all pages in a category from a BeautifulSoup object and a base URL.
 
     Parameters:
     page (str): The HTML content of the first page of the category.
-    url (str): The url of the category page.
+    category_url (str): The url of the category page.
 
     Returns:
     list: A list of URLs of all pages in the category.
@@ -32,7 +32,7 @@ def get_page_urls(page, url):
     ]
     """
     # add the current page to the list
-    ulrs_to_scrap = [url]
+    ulrs_to_scrap = [category_url]
 
     # check if there is several pages in the current category
     soup = BeautifulSoup(page, "html.parser")
@@ -53,13 +53,13 @@ def get_page_urls(page, url):
     return ulrs_to_scrap
 
 
-def get_books_url(ulrs_to_scrap, url):
+def get_books_url(ulrs_to_scrap, category_url):
     """
     Extract the URLs of all books in a category from a list of URLs to scrape and a base URL.
 
     Parameters:
     urls_to_scrap (list): A list of URLs of pages in a category.
-    url (str): The url of the category page.
+    category_url (str): The url of the category page.
 
     Returns:
     list: A list of URLs of all books in the category.
@@ -80,7 +80,7 @@ def get_books_url(ulrs_to_scrap, url):
     """
     books_urls_in_category = []
     # get base url in category page in order to create usable urls to scrap books
-    base_url = get_base_from_category_url(url)
+    base_url = get_base_from_category_url(category_url)
 
     # get every link to a book in each page of the current category
     for url_to_scrap in ulrs_to_scrap:
@@ -146,7 +146,7 @@ def get_books_data_in_category(books_urls_in_category):
     return books_from_category
 
 
-def get_category_data(page, url):
+def get_category_data(category_url):
     """
     Extract book data from all pages of a given category and return a list of dictionaries containing the data.
         First check is there is other pages thank to presence of a link 'next'.
@@ -155,8 +155,7 @@ def get_category_data(page, url):
         Scrap book's data from book's page.
 
     Parameters:
-    page (str): The HTML content of the first page of the category (got using get_html function).
-    url (str): The URL of the first page of the category.
+    category_url (str): The URL of the first page of the category.
 
     Returns:
     list: A list of dictionaries, where each dictionary contains the book data for a book in the category.
@@ -197,11 +196,14 @@ def get_category_data(page, url):
         ...
     ]
     """
+
+    category_page = get_html(category_url)
+
     # get all pages' url from a category
-    ulrs_to_scrap = get_page_urls(page, url)
+    ulrs_to_scrap = get_page_urls(category_page, category_url)
 
     # get all books' url from all category's pages
-    books_urls_in_category = get_books_url(ulrs_to_scrap, url)
+    books_urls_in_category = get_books_url(ulrs_to_scrap, category_url)
 
     # get data for every book in a category thanks to created urls above
     books_from_category = get_books_data_in_category(books_urls_in_category)

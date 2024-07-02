@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from lib import get_category_data
+from lib.get_category_data import get_category_data
 from lib.utils.get_html import get_html
 
 

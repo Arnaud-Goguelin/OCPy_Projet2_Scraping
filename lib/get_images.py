@@ -29,7 +29,7 @@ def get_images(books):
     return a file download from an URL
 
     Parameters:
-    url (string): a valide URL of the file to download
+    book (dictionnary Key(string) : Value(string)): the given books' data where to find a valide image url
 
     Returns:
     filename where URL is downloaded to
@@ -57,7 +57,7 @@ def get_images(books):
         destination_path = os.path.join(path, filename)
         if not os.path.exists(destination_path):
             # still wait 1 secondes between each donwloaded in order to prevent server's limiter action
-            time.sleep(1)
+            # time.sleep(1)
             wget.download(book["Image_url"], destination_path)
             print(f'\n{books.index(book)+1} image(s) donwloaded on {len(books)} in {book["Category"]} category')
         else:

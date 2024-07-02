@@ -126,8 +126,7 @@ def get_books_data_in_website(categories_url):
             f"start to scrap category n°{categories_url.index(category_url) + 1} on {len(categories_url)} \n"
         )
 
-        category_page = get_html(category_url)
-        books_from_category = get_category_data(category_page, category_url)
+        books_from_category = get_category_data(category_url)
         books_from_website.append(books_from_category)
 
         # give feed back in console

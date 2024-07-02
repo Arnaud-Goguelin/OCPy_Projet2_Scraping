@@ -68,7 +68,12 @@ def get_books_url(ulrs_to_scrap, url):
     None
 
     Examples:
-    >>> urls_to_scrap = ['http://books.toscrape.com/catalogue/category/books/art_5/index.html', 'http://books.toscrape.com/catalogue/category/books/art_5/page-2.html']
+    >>> urls_to_scrap =
+        [
+            'http://books.toscrape.com/catalogue/category/books/art_5/index.html',
+            'http://books.toscrape.com/catalogue/category/books/art_5/page-2.html',
+            ...,
+        ]
     >>> url = 'http://books.toscrape.com/catalogue/category/books/art_5/index.html'
     >>> get_books_url(urls_to_scrap, url)
     ['http://books.toscrape.com/catalogue/the-grand-design_405/index.html', 'http://books.toscrape.com/catalogue/sharp-objects_997/index.html', ...]

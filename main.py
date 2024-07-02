@@ -1,5 +1,5 @@
 from lib.get_book_data import get_book_data
-from lib.utils.get_html import get_html
+from lib.get_category_data import get_category_data
 from lib.get_website_data import get_website_data
 from lib.export_data import (
     export_category_books,
@@ -14,39 +14,40 @@ category_url = (
 )
 website_url = "http://books.toscrape.com/"
 
-# ! scrapping du website: on obtient acutellement une liste de liste de dictionnaire, il nous faut juste une liste de dictionnaire
-
 if __name__ == "__main__":
 
     # scrap one book
+    # give feed back in console
     starting_time = get_time()
     print(f"one book scrappring begins at {starting_time}")
-    book_page = get_html(book_url)
 
-    book = get_book_data(book_page, book_url)
-    book["Book_page_url"] = book_url
+    book = get_book_data(book_url)
     export_one_book(book)
+
+    # give feed back in console
     ending_time = get_time()
     print(f"one book scrappring ends at {ending_time}\nIt took {ending_time - starting_time}\n\n")
 
-    # # scrap all books in one category
-    # starting_time = get_time()
-    # print(f"one category scrappring begins at {starting_time}")
+    # scrap all books in one category
+    # give feed back in console
+    starting_time = get_time()
+    print(f"one category scrappring begins at {starting_time}")
 
-    # category_page = get_html(category_url)
+    books_from_category = get_category_data(category_url)
+    export_category_books(books_from_category)
 
-    # books_from_category = get_category_data(category_page, category_url)
-    # export_category_books(books_from_category)
-    # ending_time = get_time()
-    # print(f"one category scrappring ends at {ending_time}\nIt took {ending_time - starting_time}\n\n")
+    # give feed back in console
+    ending_time = get_time()
+    print(f"one category scrappring ends at {ending_time}\nIt took {ending_time - starting_time}\n\n")
 
     # scrap all books from website
-    # starting_time = get_time()
-    # print(f"website scrappring begins at {starting_time}")
+    # give feed back in console
+    starting_time = get_time()
+    print(f"website scrappring begins at {starting_time}")
 
-    # landing_page = get_html(website_url)
+    books_from_website = get_website_data(website_url)
+    export_website_books(books_from_website)
 
-    # books_from_website = get_website_data(landing_page, website_url)
-    # export_website_books(books_from_website)
-    # ending_time = get_time()
-    # print(f"website scrappring ends at {ending_time}\nIt took {ending_time - starting_time}\n\n")
+    # give feed back in console
+    ending_time = get_time()
+    print(f"website scrappring ends at {ending_time}\nIt took {ending_time - starting_time}\n\n")

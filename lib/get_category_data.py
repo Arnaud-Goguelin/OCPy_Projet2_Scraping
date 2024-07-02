@@ -134,8 +134,7 @@ def get_books_data_in_category(books_urls_in_category):
     books_from_category = []
     # get book's data for each book in current category (same logic as in get_book_data.py)
     for book_url in books_urls_in_category:
-        book_page = get_html(book_url)
-        book = get_book_data(book_page, book_url)
+        book = get_book_data(book_url)
         book["Book_page_url"] = book_url
         books_from_category.append(book)
         # give feed back in console

@@ -48,7 +48,7 @@ def get_base_from_category_url(url):
     """
     parsed_url = urlparse(url)
     current_path = parsed_url.path
-    book_from_category_path = current_path.split("/")
-    base_url = f"{parsed_url.scheme}://{parsed_url.netloc}/{book_from_category_path[1]}"
+    catalogue_path = current_path.split("/")[1]
+    base_url = f"{parsed_url.scheme}://{parsed_url.netloc}/{catalogue_path}"
 
     return base_url

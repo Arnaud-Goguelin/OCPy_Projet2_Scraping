@@ -26,7 +26,9 @@ if __name__ == "__main__":
 
     # give feed back in console
     ending_time = get_time()
-    print(f"one book scrappring ends at {ending_time}\nIt took {ending_time - starting_time}\n\n")
+    print(
+        f"one book scrappring ends at {ending_time}\nIt took {ending_time - starting_time}\n\n"
+    )
 
     # scrap all books in one category
     # give feed back in console
@@ -38,7 +40,9 @@ if __name__ == "__main__":
 
     # give feed back in console
     ending_time = get_time()
-    print(f"one category scrappring ends at {ending_time}\nIt took {ending_time - starting_time}\n\n")
+    print(
+        f"one category scrappring ends at {ending_time}\nIt took {ending_time - starting_time}\n\n"
+    )
 
     # scrap all books from website
     # give feed back in console
@@ -50,4 +54,6 @@ if __name__ == "__main__":
 
     # give feed back in console
     ending_time = get_time()
-    print(f"website scrappring ends at {ending_time}\nIt took {ending_time - starting_time}\n\n")
+    print(
+        f"website scrappring ends at {ending_time}\nIt took {ending_time - starting_time}\n\n"
+    )

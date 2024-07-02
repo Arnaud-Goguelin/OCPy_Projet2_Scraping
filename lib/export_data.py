@@ -73,7 +73,9 @@ def export_website_books(books_sorted_by_category):
     none
     """
     with open("books_from_website.csv", "w", newline="", encoding="utf-8-sig") as file:
-        writer = csv.DictWriter(file, fieldnames=books_sorted_by_category[0][0].keys(), delimiter="|")
+        writer = csv.DictWriter(
+            file, fieldnames=books_sorted_by_category[0][0].keys(), delimiter="|"
+        )
         writer.writeheader()
         for category in books_sorted_by_category:
             for book in category:

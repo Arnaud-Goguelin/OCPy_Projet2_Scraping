@@ -18,8 +18,11 @@ def slugify(string):
     none
     """
     string = string.lower().strip()
+    # every thing wich is not a space or a letter is deleted
     string = re.sub(r"[^\w\s-]", "", string)
+    # every spaces or - is replaced by a _
     string = re.sub(r"[\s-]+", "_", string)
+    # every - at the beginning or the ends of the line is deleted
     string = re.sub(r"^-+|-+$", "", string)
     return string
 
@@ -57,7 +60,7 @@ def get_images(books):
         destination_path = os.path.join(path, filename)
         if not os.path.exists(destination_path):
             # still wait 1 secondes between each donwloaded in order to prevent server's limiter action
-            time.sleep(1)
+            # time.sleep(1)
             wget.download(book["Image_url"], destination_path)
             print(
                 f'\n{books.index(book)+1} image(s) donwloaded on {len(books)} in {book["Category"]} category'

@@ -1,10 +1,18 @@
+import sys
 from bs4 import BeautifulSoup
 from lib.utils.get_html import get_html
-from lib.utils.parse_url import get_base_url
+from lib.utils.parse_url import get_valid_domain_and_path_url, get_valid_domain_url
 
 
 def get_title(soup):
     return soup.h1.string
+
+
+def get_valide_book_url(book_url):
+    # just use get_valid_domain_and_path_url() to validate the beginning of the url
+    # book_url.split('/')[4] is the book's title in such url http://books.toscrape.com/catalogue/the-grand-design_405/index.html
+    valide_book_url = f"{get_valid_domain_and_path_url(book_url)}/{book_url.split('/')[4]}/index.html"
+    return valide_book_url
 
 
 def get_category(soup):
@@ -102,7 +110,8 @@ def get_image_url(soup, book_url):
     str: The URL of the book's image.
 
     Raises:
-    None
+    Raises ValueErrors if scheme, domain and path are different
+
 
     Examples:
     >>> soup = BeautifulSoup(html, 'html.parser')
@@ -110,16 +119,24 @@ def get_image_url(soup, book_url):
     >>> get_image_url(soup, url)
     'http://books.toscrape.com/media/cache/9b/69/9b696c2064d6ee387774b6121bb4be91.jpg'
     """
-    # get the book's imagine (the first in all the img tag)
-    all_img = soup.find_all("img")
-    current_book_img = all_img[0]
+    try:
+        # get the book's imagine (the first in all the img tag)
+        all_img = soup.find_all("img")
+        current_book_img = all_img[0]
 
-    # get the image url, remove useless characters ('../')
-    # and concatenate it with the basic url of the website
-    # in order to get a valide url to use
-    current_book_img_url = current_book_img["src"].lstrip("../")
-    base_url = get_base_url(book_url)
-    return f"{base_url}/{current_book_img_url}"
+        # get the image url, remove useless characters ('../')
+        # and concatenate it with the basic url of the website
+        # in order to get a valide url to use
+        current_book_img_url = current_book_img["src"].lstrip("../")
+        domain_url = get_valid_domain_url(book_url)
+        if not current_book_img_url.startswith("media/cache/"):
+            raise ValueError("the url path of the image might be wrong.")
+        else:
+            image_url = f"{domain_url}/{current_book_img_url}"
+            return image_url
+    except ValueError as error:
+        print(f'An error happened about image url: {error}')
+        return sys.exit(1)
 
 
 def get_book_data(book_url):
@@ -159,7 +176,7 @@ def get_book_data(book_url):
 
     book = {}
     # get book's url
-    book["Book_page_url"] = book_url
+    book["Book_page_url"] = get_valide_book_url(book_url)
 
     # get book's title
     book["Title"] = get_title(soup)

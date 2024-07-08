@@ -1,4 +1,5 @@
 import time
+import sys
 import requests
 
 
@@ -21,9 +22,17 @@ def get_html(url):
     Raises:
     none
     """
-    # wait 1 sec before make HTTP request in order to prevent server's limiter action
-    # time.sleep(1)
-    # make HTTP request
-    response = requests.get(url, headers=headers)
-    html = response.content
-    return html
+    try:
+        # wait 1 sec before make HTTP request in order to prevent server's limiter action
+        # time.sleep(1)
+        # make HTTP request
+        response = requests.get(url, headers=headers)
+        # raise exception if status code is not 200
+        response.raise_for_status()
+        html = response.content
+        return html
+    except requests.exceptions.RequestException as error:
+        print("Request failed. Here is the response:"
+              f'\n   status: {response.status_code}'
+              f'\n   message: {str(error)}')
+        return sys.exit(1)

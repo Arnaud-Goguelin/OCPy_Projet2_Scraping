@@ -139,7 +139,7 @@ def get_books_data_in_category(books_urls_in_category):
         books_from_category.append(book)
         # give feed back in console
         print(
-            f"{books_urls_in_category.index(book_url) + 1} book(s) scrapped on {len(books_urls_in_category)} in {book["Category"]} category"
+            f"{books_urls_in_category.index(book_url) + 1}/{len(books_urls_in_category)} book(s) scrapped in {book["Category"]} category"
         )
 
     return books_from_category

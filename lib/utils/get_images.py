@@ -63,7 +63,7 @@ def get_images(books):
             # time.sleep(1)
             wget.download(book["Image_url"], destination_path)
             print(
-                f'\n{books.index(book)+1} image(s) donwloaded on {len(books)} in {book["Category"]} category'
+                f'\n{books.index(book)+1}/{len(books)} image(s) donwloaded in {book["Category"]} category'
             )
         else:
             print(

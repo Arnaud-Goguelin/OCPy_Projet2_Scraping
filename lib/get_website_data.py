@@ -123,7 +123,7 @@ def get_books_data_in_website(categories_url):
 
         # give feed back in console
         print(
-            f"start to scrap category n°{categories_url.index(category_url) + 1} on {len(categories_url)} \n"
+            f"start to scrap {categories_url.index(category_url) + 1}/{len(categories_url)} category\n"
         )
 
         books_from_category = get_category_data(category_url)
@@ -131,7 +131,7 @@ def get_books_data_in_website(categories_url):
 
         # give feed back in console
         print(
-            f"{categories_url.index(category_url) + 1} category(ies) scrapped on {len(categories_url)} \n"
+            f"{categories_url.index(category_url) + 1}/{len(categories_url)} category(ies) scrapped\n"
         )
 
     return books_from_website

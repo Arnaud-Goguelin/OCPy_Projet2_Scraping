@@ -23,7 +23,7 @@ Then you will have to clone this repository where you want on your system:
  And activate it:
  ```python
  # On Windows
- my_env\\scripts\\activate.bat
+ my_env\scripts\activate.bat
 
  # On macOS and Linux
  source my_env/bin/activate
@@ -46,19 +46,18 @@ To run the script, simply execute the `main.py` file with the following command:
 ```python
 python main.py
 ```
-You will be prompted to choose between scraping a single book, a category of books, or the entire website
+You will be prompted to choose between scraping a single book, a category of books, or the entire website.  
 If you choose to scrape a single book or a category, you will be prompted to enter the URL of the book or category.
 
-The script will then begin scraping the data and provide feedback in the console. Once the scraping process is complete, the data will be exported to a CSV file:
+The script will then begin scraping the data and provide feedback in the console.  
+Once the scraping process is complete, the data will be exported to a CSV file:
 - 'one_book.csv' for a single book scraping
 - 'books_from_category.csv' for a single category scraping
 - 'books_from_website.csv' for the entire website scraping
 
-Images will be download and register as follow:
-```
+Images will be download and register as follow:  
     |-- repo  
         |-- images  
             |-- category_name  
                 |-- x_book_title.jpg : where x is the index of the book in the category  
-```
 Only the first 25 characters are used to create the name of the file.

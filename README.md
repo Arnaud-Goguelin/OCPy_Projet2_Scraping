@@ -57,7 +57,7 @@ Once the scraping process is complete, the data will be exported to a CSV file:
 
 Images will be download and register as follow:  
 ├── repo  
-│   ├── images
-│   ├── category_name
-│   │   ├── i_book_title.jpg  *where i is the index of the book in the category*
+│   ├── images  
+│   ├── category_name  
+│   │   ├── i_book_title.jpg  <sub>where i is the index of the book in the category</sub>  
 Only the first 25 characters are used to create the name of the file.

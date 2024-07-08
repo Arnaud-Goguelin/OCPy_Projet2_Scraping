@@ -20,7 +20,8 @@ def get_html(url):
     bytes: the content of the response
 
     Raises:
-    none
+    detects all types of errors likely to occur during an HTTP request
+    return error message and exit app.
     """
     try:
         # wait 1 sec before make HTTP request in order to prevent server's limiter action

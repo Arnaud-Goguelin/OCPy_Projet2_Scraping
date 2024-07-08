@@ -3,7 +3,7 @@ import requests
 
 
 headers = {
-    "User-Agent": "OCPy_projet2_Scraping",
+    "User-Agent": "python-requests/2.32.3",
     "From": "Arnaud Goguelin, student at OpenClassrooms",
 }
 
@@ -22,7 +22,7 @@ def get_html(url):
     none
     """
     # wait 1 sec before make HTTP request in order to prevent server's limiter action
-    time.sleep(1)
+    # time.sleep(1)
     # make HTTP request
     response = requests.get(url, headers=headers)
     html = response.content

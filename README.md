@@ -18,15 +18,15 @@ Then you will have to clone this repository where you want on your system:
  Enter 'OCPy_Projet2_Scraping' folder, then 'repo' folder.
  Create your virtual environnement:
  ```python
-     python -m venv my_env
+python -m venv my_env
  ```
  And activate it:
  ```python
  # On Windows
- my_env\scripts\activate.bat
+my_env\scripts\activate.bat
 
  # On macOS and Linux
- source my_env/bin/activate
+source my_env/bin/activate
  ```
 You will also need to install the following dependencies:
 
@@ -56,8 +56,8 @@ Once the scraping process is complete, the data will be exported to a CSV file:
 - 'books_from_website.csv' for the entire website scraping
 
 Images will be download and register as follow:  
-    |-- repo  
-        |-- images  
-            |-- category_name  
-                |-- x_book_title.jpg : where x is the index of the book in the category  
+|-- repo  
+    |-- images  
+        |-- category_name  
+            |-- x_book_title.jpg : where x is the index of the book in the category  
 Only the first 25 characters are used to create the name of the file.

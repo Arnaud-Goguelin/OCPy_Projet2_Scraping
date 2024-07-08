@@ -1,9 +1,16 @@
 from bs4 import BeautifulSoup
 
-from lib.get_book_data import get_book_data
+from lib.get_book_data import get_book_data, get_valide_book_url
 from lib.utils.get_html import get_html
 from lib.utils.get_images import get_images
-from lib.utils.parse_url import get_base_from_category_url
+from lib.utils.parse_url import get_valid_domain_and_path_url
+
+
+def get_valide_category_url(category_url):
+    # just use get_valid_domain_and_path_url() to validate the beginning of the url
+    # book_url.split('/')[4] is the book's title in such url http://books.toscrape.com/catalogue/category/books/art_5/index.html
+    valide_category_url = f"{get_valid_domain_and_path_url(category_url)}/category/books/{category_url.split('/')[6]}/index.html"
+    return valide_category_url
 
 
 def get_page_urls(page, category_url):
@@ -32,7 +39,7 @@ def get_page_urls(page, category_url):
     ]
     """
     # add the current page to the list
-    ulrs_to_scrap = [category_url]
+    ulrs_to_scrap = [get_valide_category_url(category_url)]
 
     # check if there is several pages in the current category
     soup = BeautifulSoup(page, "html.parser")
@@ -75,12 +82,16 @@ def get_books_url(ulrs_to_scrap, category_url):
             ...,
         ]
     >>> url = 'http://books.toscrape.com/catalogue/category/books/art_5/index.html'
-    >>> get_books_url(urls_to_scrap, url)
-    ['http://books.toscrape.com/catalogue/the-grand-design_405/index.html', 'http://books.toscrape.com/catalogue/sharp-objects_997/index.html', ...]
+    >>> get_books_url(urls_to_scrap, category_url)
+        [
+            'http://books.toscrape.com/catalogue/the-grand-design_405/index.html',
+            'http://books.toscrape.com/catalogue/sharp-objects_997/index.html',
+            ...
+        ]
     """
     books_urls_in_category = []
     # get base url in category page in order to create usable urls to scrap books
-    base_url = get_base_from_category_url(category_url)
+    domain_and_path_url = get_valid_domain_and_path_url(category_url)
 
     # get every link to a book in each page of the current category
     for url_to_scrap in ulrs_to_scrap:
@@ -94,7 +105,7 @@ def get_books_url(ulrs_to_scrap, category_url):
         for title in lvl3_titles:
             relative_link = title.find("a")
             reusable_link = relative_link["href"].lstrip("../")
-            books_urls_in_category.append(f"{base_url}/{reusable_link}")
+            books_urls_in_category.append(f"{domain_and_path_url}/{reusable_link}")
 
     # give feed back in console
     print("Got all books' url in category")
@@ -135,7 +146,7 @@ def get_books_data_in_category(books_urls_in_category):
     # get book's data for each book in current category (same logic as in get_book_data.py)
     for book_url in books_urls_in_category:
         book = get_book_data(book_url)
-        book["Book_page_url"] = book_url
+        book["Book_page_url"] = get_valide_book_url(book_url)
         books_from_category.append(book)
         # give feed back in console
         print(

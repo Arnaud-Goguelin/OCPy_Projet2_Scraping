@@ -18,11 +18,11 @@ def slugify(string):
     none
     """
     string = string.lower().strip()
-    # every thing wich is not a space or a letter is deleted
+    # every caracter wich is not a space or a letter are deleted
     string = re.sub(r"[^\w\s-]", "", string)
-    # every spaces or - is replaced by a _
+    # every spaces or '-' is replaced by a '_'
     string = re.sub(r"[\s-]+", "_", string)
-    # every - at the beginning or the ends of the line is deleted
+    # every '-' at the beginning or the ends of the line are deleted
     string = re.sub(r"^-+|-+$", "", string)
     return string
 
@@ -52,7 +52,11 @@ def get_images(books):
 
         # create a slugified filename for destination path
         image_format = book["Image_url"].split(".")[-1]
-        slugified_title = slugify(book["Title"])
+        if len(book["Title"]) > 25:
+            shortcut_title = book["Title"][:25]
+            slugified_title = slugify(shortcut_title)
+        else:
+            slugified_title = slugify(book["Title"])
 
         filename = f"{books.index(book)+1}_{slugified_title}.{image_format}"
 

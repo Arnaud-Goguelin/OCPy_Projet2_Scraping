@@ -52,6 +52,7 @@ def get_images(books):
 
         # create a slugified filename for destination path
         image_format = book["Image_url"].split(".")[-1]
+        # filename are shorten to 25 caracters to avoir bug
         if len(book["Title"]) > 25:
             shortcut_title = book["Title"][:25]
             slugified_title = slugify(shortcut_title)
@@ -64,7 +65,7 @@ def get_images(books):
         destination_path = os.path.join(path, filename)
         if not os.path.exists(destination_path):
             # still wait 1 secondes between each donwloaded in order to prevent server's limiter action
-            # time.sleep(1)
+            time.sleep(1)
             wget.download(book["Image_url"], destination_path)
             print(
                 f'\n{books.index(book)+1}/{len(books)} image(s) donwloaded in {book["Category"]} category'

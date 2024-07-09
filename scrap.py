@@ -41,7 +41,7 @@ def scrap_category(category_url):
 
 
 def scrap_website():
-    website_url = "http://books.toscrape.com/"    # give feed back in console
+    website_url = "http://books.toscrape.com/"  # give feed back in console
     starting_time = get_time()
     print(f"website scrappring begins at {starting_time}")
 
@@ -57,7 +57,9 @@ def scrap_website():
 
 def start_scrapping():
 
-    choice = input("Choose what you want to scrap (book, category, website) or do you want to leave (leave)? ")
+    choice = input(
+        "Choose what you want to scrap (book, category, website) or do you want to leave (leave)? "
+    )
     if choice not in ["book", "category", "website", "leave"]:
         print("Invalid choice")
         start_scrapping()

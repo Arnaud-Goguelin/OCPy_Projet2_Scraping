@@ -77,7 +77,9 @@ def export_website_books(books_sorted_by_category):
             # as books_sorted_by_category is a list (categories) of list (category) of dictionnary (book)
             # we need to take the first list, thus the first category 'books_sorted_by_category[0]'
             # and then any dictionnary in this list to get the keys, thus a book in the category 'books_sorted_by_category[0][0]' (first one is ok)
-            file, fieldnames=books_sorted_by_category[0][0].keys(), delimiter="|"
+            file,
+            fieldnames=books_sorted_by_category[0][0].keys(),
+            delimiter="|",
         )
         writer.writeheader()
         for category in books_sorted_by_category:

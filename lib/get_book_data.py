@@ -11,7 +11,9 @@ def get_title(soup):
 def get_valide_book_url(book_url):
     # just use get_valid_domain_and_path_url() to validate the beginning of the url
     # book_url.split('/')[4] is the book's title in such url http://books.toscrape.com/catalogue/the-grand-design_405/index.html
-    valide_book_url = f"{get_valid_domain_and_path_url(book_url)}/{book_url.split('/')[4]}/index.html"
+    valide_book_url = (
+        f"{get_valid_domain_and_path_url(book_url)}/{book_url.split('/')[4]}/index.html"
+    )
     return valide_book_url
 
 
@@ -135,7 +137,7 @@ def get_image_url(soup, book_url):
             image_url = f"{domain_url}/{current_book_img_url}"
             return image_url
     except ValueError as error:
-        print(f'An error happened about image url: {error}')
+        print(f"An error happened about image url: {error}")
         return sys.exit(1)
 
 

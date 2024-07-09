@@ -33,7 +33,9 @@ def get_html(url):
         html = response.content
         return html
     except requests.exceptions.RequestException as error:
-        print("Request failed. Here is the response:"
-              f'\n   status: {response.status_code}'
-              f'\n   message: {str(error)}')
+        print(
+            "Request failed. Here is the response:"
+            f"\n   status: {response.status_code}"
+            f"\n   message: {str(error)}"
+        )
         return sys.exit(1)

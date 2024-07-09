@@ -32,7 +32,7 @@ def get_valid_domain_url(url):
             domain_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
             return domain_url
     except ValueError as error:
-        print(f'An error happened about url: {error}')
+        print(f"An error happened about url: {error}")
         return sys.exit(1)
 
 
@@ -67,5 +67,5 @@ def get_valid_domain_and_path_url(url):
             domain_and_path_url = f"{domain_path}/{catalogue_path}"
             return domain_and_path_url
     except ValueError as error:
-        print(f'An error happened about url: {error}')
+        print(f"An error happened about url: {error}")
         return sys.exit(1)

@@ -64,6 +64,8 @@ def start_scrapping():
     elif choice == "leave":
         print("Good bye")
         sys.exit(0)
+    elif choice == "website":
+        scrap_website()
 
     url = input("Enter an URL to scrap: ")
 
@@ -79,5 +81,3 @@ def start_scrapping():
             sys.exit(1)
         else:
             scrap_category(url)
-    elif choice == "website":
-        scrap_website()

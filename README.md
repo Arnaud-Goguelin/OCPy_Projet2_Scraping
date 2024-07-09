@@ -54,6 +54,7 @@ Once the scraping process is complete, the data will be exported to a CSV file:
 - 'one_book.csv' for a single book scraping
 - 'books_from_category.csv' for a single category scraping
 - 'books_from_website.csv' for the entire website scraping
+Data are separated by a pipe : '|'.
 
 Images will be download and register as follow:  
 ├── repo  

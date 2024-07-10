@@ -50,9 +50,7 @@ def export_category_books(books):
             writer.writerow(book)
 
 
-# write datas from books from each category in one .csv file
-# export_website_books is the same function as export_category_books
-# it's just allow us to write datas in a different file for exercices purpose
+# write datas from books from each category, thus from all website, in one .csv file
 def export_website_books(books_sorted_by_category):
     """
     write the given books' data from all categories in the website in a .csv file
